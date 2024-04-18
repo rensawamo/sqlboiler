@@ -15,6 +15,9 @@ buf-gen: ## buf generate code
 go-gen: ## go genrate
 	go generate
 
+boiler-gen: ## sqlboiler generate
+	sqlboiler mysql
+
 # sql-migrate targets
 migrate-up:	## migrate up
 	$(SQL_MIGRATE_CLI) up --config ../dbconfig.yml
