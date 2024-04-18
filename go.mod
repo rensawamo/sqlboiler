@@ -4,7 +4,9 @@ go 1.22.2
 
 require (
 	github.com/friendsofgo/errors v0.9.2
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/oklog/ulid/v2 v2.1.0
+	github.com/takekazuomi/sqlboiler01 v0.0.0-20221102101625-78e975127e77
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.16.2
 	github.com/volatiletech/strmangle v0.0.6
