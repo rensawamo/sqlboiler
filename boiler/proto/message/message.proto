@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package message.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message Properties {
+    string first_name = 1;
+    string last_name = 2;
+}
+  
+enum Status {
+    // 無効
+    STATUS_UNSPECIFIED = 0;
+  
+    // 有効
+    STATUS_ACTIVE = 1;
+  
+    // 削除
+    STATUS_DELETED = 2;
+}
+  
+ message Resource {
+    // 名前
+    string name = 1;
+  
+    // プロパティ
+    Properties properties = 2;
+  
+    // 状態
+    Status status = 3;
+  
+    // 作成
+    google.protobuf.Timestamp create_time = 12;
+  
+    // 更新
+    google.protobuf.Timestamp update_time = 13;
+  
+    // 削除
+    google.protobuf.Timestamp delete_time = 14;
+ 
+  }
+  
