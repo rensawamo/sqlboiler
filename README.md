@@ -50,6 +50,6 @@ $ make boiler-gen
 
 ### コマンド実行
 ```sh
-cd cmd && go run main.go
+$ go run main.go
 ```
 
