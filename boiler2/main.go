@@ -79,7 +79,7 @@ func main() {
 	// 	Or2(models.PilotWhere.Age.EQ(6)),
 	// )
 
-	// Where は不要でこうなるはず
+	// Whereの代わりにExprを使うと、ステートメントを手動でグループ化することができる
 	qms := []QueryMod{
 		Expr(
 			models.PilotWhere.Name.EQ("John"),
@@ -92,7 +92,7 @@ func main() {
 	dieIf(err)
 	printPilots(ps)
 
-	// WHERE IN clause building
+	// WHERE IN clause building いずれかに一致するものを取得する
 	WhereIn("name, age in ?", "John", 24, "Tim", 33) // Generates: WHERE ("name","age") IN (($1,$2),($3,$4))
 	//WhereIn(fmt.Sprintf("%s, %s in ?", models.PilotColumns.Name, models.PilotColumns.Age, "John", 24, "Tim", 33))
 	AndIn("weight in ?", 84)
@@ -109,11 +109,12 @@ func main() {
 	OrderBy("age, height")
 	//OrderBy(models.PilotColumns.Age, models.PilotColumns.Height)
 
+	// group by having
 	Having("count(jets) > 2")
-	Having(fmt.Sprintf("count(%s) > 2", models.TableNames.Jets)) // ここはカッコが足りない
+	Having(fmt.Sprintf("count(%s) > 2", models.TableNames.Jets)) 
 
 	Limit(15)
-	Offset(5)
+	Offset(5) // Offset(5) は、5行目から取得する
 
 	// Explicit locking
 	For("update nowait")
@@ -121,12 +122,8 @@ func main() {
 	// Common Table Expressions
 	With("cte_0 AS (SELECT * FROM table_0 WHERE thing=$1 AND stuff=$2)")
 
-	// Eager Loading -- Load takes the relationship name, ie the struct field name of the
-	// Relationship struct field you want to load. Optionally also takes query mods to filter on that query.
-	// Eager Loading -- Load はリレーションシップ名を受け取ります。
-	// つまり、ロードしたいリレーションシップ構造体フィールドの構造体フィールド名です。
-	// オプションで、そのクエリでフィルタリングするためのクエリモジュールを受け取ります。
-	// ※これは確認が必要
+
+	//  条件を指定して取得する
 	Load("Languages", models.LanguageWhere.Language.EQ("english")) // If it's a ToOne relationship it's in singular form, ToMany is plural.
 	Load(models.PilotRels.Languages, models.LanguageWhere.Language.EQ("english"))
 
@@ -163,7 +160,6 @@ func main() {
 	//dieIf(err)
 	// `SELECT `jets`.* FROM `jets` WHERE (`pilots`.`name` = ?);`が生成されて、下記のエラーになる。
 	// panic: models: failed to assign all query results to Jet slice: bind failed to execute query: Error 1054: Unknown column 'pilots.name' in 'where clause'
-	// 余計なことをしてなくて偉い
 
 	// Example of a nested load.
 	// Each jet will have its pilot loaded, and each pilot will have its languages loaded.
@@ -185,7 +181,7 @@ func main() {
 	join pilot_languages pl on p.id = pl.pilot_id
 	join languages l on l.id = pl.language_id
 	where  l.language = ?`, "english")
-	err = models.Pilots(qm).Bind(ctx, db, &p)
+	err = models.Pilots(qm).Bind(ctx, db, &p) //Bind the results of a query to your own struct object.
 	dieIf(err)
 
 	printPilots(p)
