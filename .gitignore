@@ -82,3 +82,6 @@ fabric.properties
 
 *~
 
+
+database/mysql/data/*
+database/mysql/log/*

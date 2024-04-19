@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: mysql:8.0.29
+    image: mysql:8.0.28
     ports:
       - ${MYSQL_PORT:-3306}:3306
     user: "${UID_GID:-1000:1000}"

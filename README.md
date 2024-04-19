@@ -7,6 +7,15 @@ $ direnv edit .
 
 ## mysql のセットアップ
 ```sh
+# dbconfig.ymlの 以下の出力先を変更する
+dir: boiler2/migrations 
+```
+
+```sh
+$ sql-migrate new MIGRATEFILENAME
+```
+
+```sh
 $ make up
 docker compose -f database/docker-compose.yml up --force-recreate -d
 [+] Running 12/12
@@ -39,8 +48,8 @@ $ make migrate-up
 $ make boiler-gen
 ```
 
-
 ### コマンド実行
 ```sh
 cd cmd && go run main.go
 ```
+

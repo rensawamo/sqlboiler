@@ -11,7 +11,7 @@ help: ## show this message
 
 # mysql targets
 up: 		## Up
-	docker compose -f database/docker-compose.yml up --force-recreate -d
+	docker compose -f database/docker-compose.yml up 
 
 down: 	## Down
 	docker compose -f database/docker-compose.yml down
@@ -22,7 +22,7 @@ logs:	## Show logs
 login:	## login db
 	docker compose -f database/docker-compose.yml exec db /bin/bash
 
-clean: 		## clean
+clean: 		## clean	
 clean: down
 	rm -rf database/mysql/data/*
 
