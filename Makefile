@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := help
+d.DEFAULT_GOAL := help
 
 .PHONY: help test
 
@@ -12,6 +12,11 @@ help: ## show this message
 # mysql targets
 up: 		## Up
 	docker compose -f database/docker-compose.yml up 
+
+.PHONY: chmod
+chmod: 		## Up
+	sh scripts/mysql_chmod.sh
+
 
 down: 	## Down
 	docker compose -f database/docker-compose.yml down
