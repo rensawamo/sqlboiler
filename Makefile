@@ -11,7 +11,7 @@ help: ## show this message
 
 # mysql targets
 up: 		## Up
-	docker compose -f database/docker-compose.yml up 
+	docker compose -f database/docker-compose.yml up --force-recreate
 
 .PHONY: chmod
 chmod: 		## Up
@@ -29,9 +29,10 @@ login:	## login db
 
 clean: 		## clean	
 clean: down
+	docker compose -f database/docker-compose.yml rm -f
 	rm -rf database/mysql/data/*
 
 mysql-client:	## connet mysql from mysql cli
-	docker compose -f docker-compose.yml exec db /bin/bash -c "mysql -u root -p -D db"
+	docker compose -f database/docker-compose.yml exec db /bin/bash -c "mysql -u root -p -D db"
 
 # internal targets
